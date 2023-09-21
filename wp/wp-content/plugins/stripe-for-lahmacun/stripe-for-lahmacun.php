@@ -20,6 +20,8 @@ function custom_phrase() {
 
     header('Content-Type: application/json');
 
+    global $price_id;
+
     global $YOUR_DOMAIN;
     global $success_url;
     global $cancel_url;
@@ -27,7 +29,7 @@ function custom_phrase() {
     $checkout_session = \Stripe\Checkout\Session::create([
       'line_items' => [[
         # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-        'price' => 'price_1Nsh2UBd0rYu9XiDS0kGER2h',
+        'price' => $price_id,
         'quantity' => 1,
       ]],
       'mode' => 'subscription',
