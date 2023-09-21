@@ -30,6 +30,7 @@ services:
       - wordpress:/var/www/html
       - ./wp-content/themes/maker:/var/www/html/wp-content/themes/maker 
       - ./wp-content/themes/lahma_maker:/var/www/html/wp-content/themes/lahma_maker 
+      - ./wp-content/plugins/stripe-for-lahmacun:/var/www/html/wp-content/plugins/stripe-for-lahmacun 
       - ./php.ini:/usr/local/etc/php/php.ini
     networks:
       - app-network
@@ -47,6 +48,7 @@ services:
       - wordpress:/var/www/html
       - ./wp-content/themes/maker:/var/www/html/wp-content/themes/maker 
       - ./wp-content/themes/lahma_maker:/var/www/html/wp-content/themes/lahma_maker 
+      - ./wp-content/plugins/stripe-for-lahmacun:/var/www/html/wp-content/plugins/stripe-for-lahmacun
       - ./nginx-conf:/etc/nginx/conf.d
       - certbot-etc:/etc/letsencrypt
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
