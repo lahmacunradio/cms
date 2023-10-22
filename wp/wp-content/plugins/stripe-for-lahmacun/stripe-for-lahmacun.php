@@ -14,7 +14,7 @@ function route_return_checkout_session_recurring_membership() {
             )
     );
 }
-function return_checkout_session_recurring_membership() {
+function return_checkout_session_recurring_membership($request) {
     global $stripeSecretKey;
     \Stripe\Stripe::setApiKey($stripeSecretKey);
 
@@ -38,8 +38,10 @@ function return_checkout_session_recurring_membership() {
       'subscription_data' => [
         'metadata' => [
             'kultdesk_org' => 'lahmacun_radio',
-            'lahmacun_form' => 'recurring_show_membership'            ]
+            'lahmacun_form' => 'recurring_show_membership',
+            'show_name' => $request['show_name']                  
         ]
+      ]
     ]);
     
     header("HTTP/1.1 303 See Other");
