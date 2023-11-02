@@ -14,3 +14,5 @@ wp/wp-content/themes/lahma_maker/assets/playerfiles/node_modules/
 wp/nginx-conf/nginx.conf
 
 wp/.env
+
+wp/plugins/stripe-for-lahmacun/stripe/*
