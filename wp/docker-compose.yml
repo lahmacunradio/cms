@@ -4,32 +4,32 @@ services:
   db:
     image: mysql:8.0
     container_name: db
-    restart: unless-stopped
+    restart: always
     env_file: .env
     environment:
       - MYSQL_DATABASE=lahmadb
     volumes: 
       - dbdata:/var/lib/mysql
-    command: '--default-authentication-plugin=mysql_native_password'
     networks:
       - app-network
 
   wordpress:
     depends_on: 
       - db
-    image: wordpress:5.2.2-fpm-alpine
+    image: wordpress:6.3.1-fpm-alpine
     container_name: wordpress
-    restart: unless-stopped
+    restart: always
     env_file: .env
     environment:
-      - WORDPRESS_DB_HOST=db:3306
+      - WORDPRESS_DB_HOST=db
       - WORDPRESS_DB_USER=$MYSQL_USER
       - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
       - WORDPRESS_DB_NAME=lahmadb
     volumes:
       - wordpress:/var/www/html
       - ./wp-content/themes/maker:/var/www/html/wp-content/themes/maker 
-      - ./wp-content/themes/lahma_maker:/var/www/html/wp-content/themes/lahma_maker 
+      - ./wp-content/themes/lahma_maker:/var/www/html/wp-content/themes/lahma_maker
+      - ./wp-content/plugins/stripe-for-lahmacun:/var/www/html/wp-content/plugins/stripe-for-lahmacun 
       - ./php.ini:/usr/local/etc/php/php.ini
     networks:
       - app-network
@@ -47,6 +47,7 @@ services:
       - wordpress:/var/www/html
       - ./wp-content/themes/maker:/var/www/html/wp-content/themes/maker 
       - ./wp-content/themes/lahma_maker:/var/www/html/wp-content/themes/lahma_maker 
+      - ./wp-content/plugins/stripe-for-lahmacun:/var/www/html/wp-content/plugins/stripe-for-lahmacun
       - ./nginx-conf:/etc/nginx/conf.d
       - certbot-etc:/etc/letsencrypt
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
