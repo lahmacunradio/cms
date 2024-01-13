@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Buy cool new product</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://js.stripe.com/v3/"></script>
+  </head>
+  <body>
+    <section>
+      <div class="product">
+        <div class="description">
+          <h3>Lahmacun radio donation</h3>
+          <p>SELECT YOUR OPTION</p>
+        </div>
+      </div>
+      <form action="http://localhost/wp-json/stripe/return_checkout_session_listener" method="GET">
+        <div>
+          <div>
+            <input type="radio" id="option1" name="is_recurring" value="no" checked />
+            <label for="option1">One-time</label>
+          </div>
+        
+          <div>
+            <input type="radio" id="option2" name="is_recurring" value="yes" />
+            <label for="option2">Recurring (monthly)</label>
+          </div>
+        </div>
+        <button type="submit" id="checkout-button">Checkout</button>
+      </form>
+    </section>
+  </body>
+</html>
