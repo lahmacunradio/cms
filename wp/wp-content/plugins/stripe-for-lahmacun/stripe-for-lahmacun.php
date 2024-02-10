@@ -33,8 +33,8 @@ function return_checkout_session_recurring_membership($request) {
         'quantity' => 1,
       ]],
       'mode' => 'subscription',
-      'success_url' => $YOUR_DOMAIN . $success_url,
-      'cancel_url' => $YOUR_DOMAIN . $cancel_url,
+      'success_url' => $YOUR_DOMAIN . $success_url_membership,
+      'cancel_url' => $YOUR_DOMAIN . $cancel_url_membership,
       'subscription_data' => [
         'metadata' => [
             'kultdesk_org' => 'lahmacun_radio',
@@ -79,8 +79,8 @@ function return_checkout_session_listener($request) {
         'quantity' => 1,
       ]],
       'mode' => 'payment',
-      'success_url' => $YOUR_DOMAIN . $success_url,
-      'cancel_url' => $YOUR_DOMAIN . $cancel_url,
+      'success_url' => $YOUR_DOMAIN . $success_url_donation,
+      'cancel_url' => $YOUR_DOMAIN . $cancel_url_donation,
       'payment_intent_data' => [
         'metadata' => [
             'kultdesk_org' => 'lahmacun_radio',
@@ -98,8 +98,8 @@ function return_checkout_session_listener($request) {
         'quantity' => 1,
       ]],
       'mode' => 'subscription',
-      'success_url' => $YOUR_DOMAIN . $success_url,
-      'cancel_url' => $YOUR_DOMAIN . $cancel_url,
+      'success_url' => $YOUR_DOMAIN . $success_url_donation,
+      'cancel_url' => $YOUR_DOMAIN . $cancel_url_donation,
       'subscription_data' => [
         'metadata' => [
             'kultdesk_org' => 'lahmacun_radio',
