@@ -23,8 +23,8 @@ function return_checkout_session_recurring_membership($request) {
     global $price_id_recurring_membership;
 
     global $YOUR_DOMAIN;
-    global $success_url;
-    global $cancel_url;
+    global $success_url_membership;
+    global $cancel_url_membership;
     
     $checkout_session = \Stripe\Checkout\Session::create([
       'line_items' => [[
@@ -68,8 +68,8 @@ function return_checkout_session_listener($request) {
   global $price_id_recurring_listener;
 
   global $YOUR_DOMAIN;
-  global $success_url;
-  global $cancel_url;
+  global $success_url_donation;
+  global $cancel_url_donation;
   
   if ($request['is_recurring'] == "no"){
     $checkout_session = \Stripe\Checkout\Session::create([
