@@ -5,8 +5,12 @@ $stripeSecretKey = 'ADD_API_KEY';
 
 //Product IDs (Stripe)
 $price_id_recurring_membership = 'ADD_PRICE_ID';
+$price_id_one_time_listener = 'ADD_PRICE_ID';
+$price_id_recurring_listener = 'ADD_PRICE_ID';
 
 //Domains and URLs
 $YOUR_DOMAIN = 'http://localhost';
-$success_url = '/thanks-for-your-payment';
-$cancel_url = '/thanks-for-your-payment';
+$success_url_membership = '/thanks-for-your-payment';
+$cancel_url_membership = '/thanks-for-your-payment';
+$success_url_donation = '/thanks-for-your-payment';
+$cancel_url_donation = '/thanks-for-your-payment';

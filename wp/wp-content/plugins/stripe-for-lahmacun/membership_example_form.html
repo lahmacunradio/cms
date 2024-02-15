@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Buy cool new product</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://js.stripe.com/v3/"></script>
+  </head>
+  <body>
+    <section>
+      <div class="product">
+        <div class="description">
+          <h3>Lahmacun show membership</h3>
+          <p>DAILY RECURRING PAYMENT</p>
+          <h5>0.1 EUR</h5>
+        </div>
+      </div>
+      <form action="http://localhost/wp-json/stripe/return_checkout_session_recurring_membership" method="GET">
+  <div>
+    <label for="show_name">Show name:</label>
+    <input name="show_name" id="show_name" value="MMN radio" />
+  </div>
+        <button type="submit" id="checkout-button">Checkout</button>
+      </form>
+    </section>
+  </body>
+</html>
