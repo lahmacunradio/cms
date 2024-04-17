@@ -6,6 +6,8 @@ $stripeSecretKey = 'ADD_API_KEY';
 //Product IDs (Stripe)
 $price_id_recurring_membership_huf = 'ADD_PRICE_ID';
 $price_id_recurring_membership_eur = 'ADD_PRICE_ID';
+$price_id_one_time_membership_huf = 'ADD_PRICE_ID';
+$price_id_one_time_membership_eur = 'ADD_PRICE_ID';
 $price_id_one_time_listener_huf = 'ADD_PRICE_ID';
 $price_id_one_time_listener_eur = 'ADD_PRICE_ID';
 $price_id_recurring_listener_huf = 'ADD_PRICE_ID';
