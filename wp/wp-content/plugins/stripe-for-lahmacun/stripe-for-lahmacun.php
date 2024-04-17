@@ -72,29 +72,39 @@ function return_checkout_session_listener($request) {
   global $cancel_url_donation;
   
   if ($request['is_recurring'] == "no"){
-    $checkout_session = \Stripe\Checkout\Session::create([
-      'line_items' => [[
-        # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-        'price' => $price_id_one_time_listener,
-        'quantity' => 1,
-      ]],
-      'mode' => 'payment',
-      'success_url' => $YOUR_DOMAIN . $success_url_donation,
-      'cancel_url' => $YOUR_DOMAIN . $cancel_url_donation,
-      'payment_intent_data' => [
-        'metadata' => [
-            'kultdesk_org' => 'lahmacun_radio',
-            'lahmacun_form' => 'one_time_listener_donation'
+      $checkout_session = \Stripe\Checkout\Session::create([
+        'line_items' => [[
+          # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
+          if ($request['currency'] == "huf"){
+            'price' => $price_id_one_time_listener_huf,
+          }
+          elseif ($request['currency'] == "eur"){
+            'price' => $price_id_one_time_listener_eur,
+          }
+          'quantity' => 1,
+        ]],
+        'mode' => 'payment',
+        'success_url' => $YOUR_DOMAIN . $success_url_donation,
+        'cancel_url' => $YOUR_DOMAIN . $cancel_url_donation,
+        'payment_intent_data' => [
+          'metadata' => [
+              'kultdesk_org' => 'lahmacun_radio',
+              'lahmacun_form' => 'one_time_listener_donation'
+          ]
         ]
-      ]
-    ]);
+      ]);
   }
 
   if ($request['is_recurring'] == "yes"){
     $checkout_session = \Stripe\Checkout\Session::create([
       'line_items' => [[
         # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-        'price' => $price_id_recurring_listener,
+        if ($request['currency'] == "huf"){
+          'price' => $price_id_recurring_listener_huf,
+        }
+        elseif ($request['currency'] == "eur"){
+          'price' => $price_id_recurring_listener_eur,
+        }
         'quantity' => 1,
       ]],
       'mode' => 'subscription',

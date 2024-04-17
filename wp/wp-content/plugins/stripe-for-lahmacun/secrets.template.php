@@ -4,9 +4,12 @@
 $stripeSecretKey = 'ADD_API_KEY';
 
 //Product IDs (Stripe)
-$price_id_recurring_membership = 'ADD_PRICE_ID';
-$price_id_one_time_listener = 'ADD_PRICE_ID';
-$price_id_recurring_listener = 'ADD_PRICE_ID';
+$price_id_recurring_membership_huf = 'ADD_PRICE_ID';
+$price_id_recurring_membership_eur = 'ADD_PRICE_ID';
+$price_id_one_time_listener_huf = 'ADD_PRICE_ID';
+$price_id_one_time_listener_eur = 'ADD_PRICE_ID';
+$price_id_recurring_listener_huf = 'ADD_PRICE_ID';
+$price_id_recurring_listener_eur = 'ADD_PRICE_ID';
 
 //Domains and URLs
 $YOUR_DOMAIN = 'http://localhost';
