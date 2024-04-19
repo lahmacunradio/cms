@@ -32,7 +32,7 @@ function return_checkout_session_membership($request) {
     $checkout_session = \Stripe\Checkout\Session::create([
       'line_items' => [[
         # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-        'price' => $price_id_recurring_membership,
+        'price' => $price_id_recurring_membership_eur,
         'quantity' => 1,
       ]],
       'mode' => 'subscription',
@@ -61,6 +61,48 @@ function route_return_checkout_session_listener() {
   );
 }
 
+function StripeCheckoutSession($priceID,$paymentMode) {
+  global $YOUR_DOMAIN;
+  global $success_url_donation;
+  global $cancel_url_donation;
+  
+  if ($paymentMode == 'payment'){
+    return \Stripe\Checkout\Session::create([
+      'line_items' => [[
+        # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
+          'price' => $priceID,
+        'quantity' => 1,
+      ]],
+      'mode' => 'payment',
+      'success_url' => $YOUR_DOMAIN . $success_url_donation,
+      'cancel_url' => $YOUR_DOMAIN . $cancel_url_donation,
+      'payment_intent_data' => [
+        'metadata' => [
+            'kultdesk_org' => 'lahmacun_radio',
+            'lahmacun_form' => 'one_time_listener_donation'
+        ]
+      ]
+    ]);  
+  } elseif ($paymentMode == 'subscription'){
+    return \Stripe\Checkout\Session::create([
+      'line_items' => [[
+        # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
+          'price' => $priceID,
+        'quantity' => 1,
+      ]],
+      'mode' => 'subscription',
+      'success_url' => $YOUR_DOMAIN . $success_url_donation,
+      'cancel_url' => $YOUR_DOMAIN . $cancel_url_donation,
+      'subscription_data' => [
+        'metadata' => [
+            'kultdesk_org' => 'lahmacun_radio',
+            'lahmacun_form' => 'one_time_listener_donation'
+        ]
+      ]
+    ]);  
+  }
+}
+
 function return_checkout_session_listener($request) {
   global $stripeSecretKey;
   \Stripe\Stripe::setApiKey($stripeSecretKey);
@@ -72,81 +114,17 @@ function return_checkout_session_listener($request) {
   global $price_id_recurring_listener_huf;
   global $price_id_recurring_listener_eur;
 
-  global $YOUR_DOMAIN;
-  global $success_url_donation;
-  global $cancel_url_donation;
-  
   if ($request['is_recurring'] == "no"){
     if ($request['currency'] == "huf"){
-      $checkout_session = \Stripe\Checkout\Session::create([
-        'line_items' => [[
-          # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-            'price' => $price_id_one_time_listener_huf,
-          'quantity' => 1,
-        ]],
-        'mode' => 'payment',
-        'success_url' => $YOUR_DOMAIN . $success_url_donation,
-        'cancel_url' => $YOUR_DOMAIN . $cancel_url_donation,
-        'payment_intent_data' => [
-          'metadata' => [
-              'kultdesk_org' => 'lahmacun_radio',
-              'lahmacun_form' => 'one_time_listener_donation'
-          ]
-        ]
-      ]);
+      $checkout_session = StripeCheckoutSession($price_id_one_time_listener_huf,'payment');
     } elseif ($request['currency'] == "eur"){
-      $checkout_session = \Stripe\Checkout\Session::create([
-        'line_items' => [[
-          # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-            'price' => $price_id_one_time_listener_eur,
-          'quantity' => 1,
-        ]],
-        'mode' => 'payment',
-        'success_url' => $YOUR_DOMAIN . $success_url_donation,
-        'cancel_url' => $YOUR_DOMAIN . $cancel_url_donation,
-        'payment_intent_data' => [
-          'metadata' => [
-              'kultdesk_org' => 'lahmacun_radio',
-              'lahmacun_form' => 'one_time_listener_donation'
-          ]
-        ]
-      ]);
+      $checkout_session = StripeCheckoutSession($price_id_one_time_listener_eur,'payment');
     }
   } elseif ($request['is_recurring'] == "yes"){
     if ($request['currency'] == "huf"){
-      $checkout_session = \Stripe\Checkout\Session::create([
-        'line_items' => [[
-          # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-            'price' => $price_id_recurring_listener_huf,
-          'quantity' => 1,
-        ]],
-        'mode' => 'payment',
-        'success_url' => $YOUR_DOMAIN . $success_url_donation,
-        'cancel_url' => $YOUR_DOMAIN . $cancel_url_donation,
-        'payment_intent_data' => [
-          'metadata' => [
-              'kultdesk_org' => 'lahmacun_radio',
-              'lahmacun_form' => 'one_time_listener_donation'
-          ]
-        ]
-      ]);
+      $checkout_session = StripeCheckoutSession($price_id_recurring_listener_huf,'subscription');
     } elseif ($request['currency'] == "eur"){
-      $checkout_session = \Stripe\Checkout\Session::create([
-        'line_items' => [[
-          # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-            'price' => $price_id_recurring_listener_eur,
-          'quantity' => 1,
-        ]],
-        'mode' => 'payment',
-        'success_url' => $YOUR_DOMAIN . $success_url_donation,
-        'cancel_url' => $YOUR_DOMAIN . $cancel_url_donation,
-        'payment_intent_data' => [
-          'metadata' => [
-              'kultdesk_org' => 'lahmacun_radio',
-              'lahmacun_form' => 'one_time_listener_donation'
-          ]
-        ]
-      ]);
+      $checkout_session = StripeCheckoutSession($price_id_recurring_listener_eur,'subscription');
     }
   }
 
