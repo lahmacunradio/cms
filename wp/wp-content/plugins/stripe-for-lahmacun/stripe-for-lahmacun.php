@@ -16,9 +16,9 @@ function route_return_checkout_session_membership() {
 }
 
 /*
- * Helper function for creating Stripe session for show host membership
+ * Helper function for creating a Stripe checkout session
  */
-function StripeCheckoutSessionMembership($priceID,$paymentMode) {
+function StripeCheckoutSession($priceID,$paymentMode, $metadata) {
   global $YOUR_DOMAIN;
   global $success_url_donation;
   global $cancel_url_donation;
@@ -36,7 +36,7 @@ function StripeCheckoutSessionMembership($priceID,$paymentMode) {
       'payment_intent_data' => [
         'metadata' => [
             'kultdesk_org' => 'lahmacun_radio',
-            'lahmacun_form' => 'one_time_membership'
+            'lahmacun_form' => $metadata
         ]
       ]
     ]);  
@@ -53,7 +53,7 @@ function StripeCheckoutSessionMembership($priceID,$paymentMode) {
       'subscription_data' => [
         'metadata' => [
             'kultdesk_org' => 'lahmacun_radio',
-            'lahmacun_form' => 'recurring_membership'
+            'lahmacun_form' => $metadata
         ]
       ]
     ]);  
@@ -80,15 +80,15 @@ function return_checkout_session_membership($request) {
     
     if ($request['is_recurring'] == "no"){
       if ($request['currency'] == "huf"){
-        $checkout_session = StripeCheckoutSessionMembership($price_id_one_time_membership_huf,'payment');
+        $checkout_session = StripeCheckoutSession($price_id_one_time_membership_huf,'payment','membership');
       } elseif ($request['currency'] == "eur"){
-        $checkout_session = StripeCheckoutSessionMembership($price_id_one_time_membership_eur,'payment');
+        $checkout_session = StripeCheckoutSession($price_id_one_time_membership_eur,'payment','membership');
       }
     } elseif ($request['is_recurring'] == "yes"){
       if ($request['currency'] == "huf"){
-        $checkout_session = StripeCheckoutSessionMembership($price_id_recurring_membership_huf,'subscription');
+        $checkout_session = StripeCheckoutSession($price_id_recurring_membership_huf,'subscription','membership');
       } elseif ($request['currency'] == "eur"){
-        $checkout_session = StripeCheckoutSessionMembership($price_id_recurring_membership_eur,'subscription');
+        $checkout_session = StripeCheckoutSession($price_id_recurring_membership_eur,'subscription','membership');
       }
     }
       
@@ -104,52 +104,6 @@ function route_return_checkout_session_listener() {
       'callback' => 'return_checkout_session_listener',
           )
   );
-}
-
-
-/*
- * Helper function for creating Stripe session for listener donation
- */
-function StripeCheckoutSessionListener($priceID,$paymentMode) {
-  global $YOUR_DOMAIN;
-  global $success_url_donation;
-  global $cancel_url_donation;
-  
-  if ($paymentMode == 'payment'){
-    return \Stripe\Checkout\Session::create([
-      'line_items' => [[
-        # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-          'price' => $priceID,
-        'quantity' => 1,
-      ]],
-      'mode' => 'payment',
-      'success_url' => $YOUR_DOMAIN . $success_url_donation,
-      'cancel_url' => $YOUR_DOMAIN . $cancel_url_donation,
-      'payment_intent_data' => [
-        'metadata' => [
-            'kultdesk_org' => 'lahmacun_radio',
-            'lahmacun_form' => 'one_time_listener_donation'
-        ]
-      ]
-    ]);  
-  } elseif ($paymentMode == 'subscription'){
-    return \Stripe\Checkout\Session::create([
-      'line_items' => [[
-        # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-          'price' => $priceID,
-        'quantity' => 1,
-      ]],
-      'mode' => 'subscription',
-      'success_url' => $YOUR_DOMAIN . $success_url_donation,
-      'cancel_url' => $YOUR_DOMAIN . $cancel_url_donation,
-      'subscription_data' => [
-        'metadata' => [
-            'kultdesk_org' => 'lahmacun_radio',
-            'lahmacun_form' => 'recurring_listener_donation'
-        ]
-      ]
-    ]);  
-  }
 }
 
 /*
@@ -168,15 +122,15 @@ function return_checkout_session_listener($request) {
 
   if ($request['is_recurring'] == "no"){
     if ($request['currency'] == "huf"){
-      $checkout_session = StripeCheckoutSessionListener($price_id_one_time_listener_huf,'payment');
+      $checkout_session = StripeCheckoutSession($price_id_one_time_listener_huf,'payment','listener');
     } elseif ($request['currency'] == "eur"){
-      $checkout_session = StripeCheckoutSessionListener($price_id_one_time_listener_eur,'payment');
+      $checkout_session = StripeCheckoutSession($price_id_one_time_listener_eur,'payment','listener');
     }
   } elseif ($request['is_recurring'] == "yes"){
     if ($request['currency'] == "huf"){
-      $checkout_session = StripeCheckoutSessionListener($price_id_recurring_listener_huf,'subscription');
+      $checkout_session = StripeCheckoutSession($price_id_recurring_listener_huf,'subscription','listener');
     } elseif ($request['currency'] == "eur"){
-      $checkout_session = StripeCheckoutSessionListener($price_id_recurring_listener_eur,'subscription');
+      $checkout_session = StripeCheckoutSession($price_id_recurring_listener_eur,'subscription','listener');
     }
   }
 
